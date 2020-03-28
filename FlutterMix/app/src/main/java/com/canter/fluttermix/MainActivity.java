@@ -1,6 +1,8 @@
 package com.canter.fluttermix;
 
 import androidx.appcompat.app.AppCompatActivity;
+import io.flutter.facade.Flutter;
+import io.flutter.view.FlutterView;
 
 import android.os.Bundle;
 
@@ -9,6 +11,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+
+        FlutterView flutterView = Flutter.createView(this, getLifecycle(), "initialRoute");
+
+        setContentView(flutterView);
     }
 }
