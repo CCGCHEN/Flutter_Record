@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_widget/common_page.dart';
 import 'package:flutter_widget/padding_widget.dart';
+import 'package:flutter_widget/page/page_gridview.dart';
 
 import 'round_widget.dart';
 
@@ -14,7 +14,10 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: PaddingWidget(),
+      home: Container(
+        color: Colors.red,
+        child: GridViewImage(),
+      ),
     );
   }
 }
