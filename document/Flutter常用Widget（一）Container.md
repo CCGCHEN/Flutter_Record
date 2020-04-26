@@ -1,3 +1,4 @@
+# Flutter常用Widget（一）Container
 > 详细介绍Container的相关使用。
 ## 一、简介
 > A convenience widget that combines common painting, positioning, and sizing widgets.
@@ -76,7 +77,8 @@ class ContainerWidget extends StatelessWidget {
 }
 ```
 #### 2、效果图
-![效果图](https://raw.githubusercontent.com/CCGCHEN/Image/master/20200426150550.png?token=ACWTSA3QCCA6DDRKMADJSV26UUZRG)
+
+![效果图](https://raw.githubusercontent.com/CCGCHEN/Image/master/20200426164410.png?token=ACWTSA2FZ6D6EXBP7VKLAH26UVFBU)
 
 这里面的padding 和maring，如果你做过安卓或者iOS的开发，应该比较容易理解，其实就是一个是内部的空白，一个是外部的空白。
 
