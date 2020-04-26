@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_widget/bean/tiny_app_item.dart';
-import 'package:flutter_widget/widget/title_widget.dart';
 
 class GridViewImage extends StatefulWidget {
 
@@ -25,7 +24,6 @@ class _GridViewImageState extends State<GridViewImage> {
           SliverToBoxAdapter(
             child: Container(
               margin: EdgeInsets.only(top: 20, bottom: 12),
-              color: Colors.white,
               height: 48,
               alignment: Alignment.centerLeft,
               child: Text("常用APP", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold,fontFamily: 'PingFangSC-Semibold'),),
@@ -34,7 +32,6 @@ class _GridViewImageState extends State<GridViewImage> {
           SliverToBoxAdapter(
             child: Container(
               margin: EdgeInsets.only(top: 20, bottom: 12),
-              color: Colors.white,
               child: _GridViewItemWidget(),
             ),
           ),
@@ -118,3 +115,40 @@ class _GridViewItemWidgetState extends State<_GridViewItemWidget> {
 }
 
 
+typedef TapCallback = void Function();
+
+class TextImgWidget extends StatelessWidget {
+
+  final String text;
+  final String imgUrl;
+  final TapCallback tabCallBack;
+
+  TextImgWidget(this.text,
+      this.imgUrl, {  Key key, this.tabCallBack,  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        if (tabCallBack != null) {  tabCallBack();  }
+      },
+      child: Column(
+        children: <Widget>[
+          Container(
+            decoration: new BoxDecoration(color: Colors.grey,
+              border: Border.all(color: Colors.grey, width: 0.5),borderRadius: BorderRadius.circular(12),
+            ),
+            child: ClipRRect(borderRadius: BorderRadius.circular(12),
+              child: Image.network(imgUrl, width: 60.0, height: 60.0, fit: BoxFit.fill,),
+            ),
+          ),
+          Container(
+            margin: EdgeInsets.only(top: 7),
+            child: Text(text, softWrap: false, overflow: TextOverflow.fade,
+              style: TextStyle(fontSize: 13, color: Colors.black),),
+          )
+        ],
+      ),
+    );
+  }
+}

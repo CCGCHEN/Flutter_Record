@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_widget/padding_widget.dart';
-import 'package:flutter_widget/page/page_gridview.dart';
-
-import 'round_widget.dart';
+import 'package:flutter_widget/widget/Container.dart';
+import 'package:flutter_widget/widget/GridView.dart';
 
 void main() => runApp(MyApp());
 
@@ -14,9 +12,13 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: Container(
-        color: Colors.red,
-        child: GridViewImage(),
+      home: Scaffold(
+        appBar: AppBar(title: Text('Flutter常用Widget使用'),),
+        backgroundColor: Colors.blue,
+        body: Container(
+          color: Colors.white,
+          child: ContainerWidget(), // 替换为需要展示的Widget
+        ),
       ),
     );
   }
