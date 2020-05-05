@@ -16,8 +16,10 @@ class MyApp extends StatelessWidget {
         appBar: AppBar(title: Text('Flutter常用Widget使用'),),
         backgroundColor: Colors.blue,
         body: Container(
-          color: Colors.white,
-          child: ContainerWidget(), // 替换为需要展示的Widget
+          color: Colors.yellow,
+          child: Container(
+            color: Colors.red,
+          ),
         ),
       ),
     );
