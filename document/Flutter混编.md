@@ -3,20 +3,62 @@
 
 ## 源码集成方式
 虽然说Flutter支持源码集成和aar集成的方式，但是官方只是介绍了源码集成的方式。所以aar集成的方式，下面再接续介绍。源码集成的方式，按照下面的流程即可：
-#### 1、创建FlutterModule
-有使用AS进行创建或者是命令行创建两种步骤，基本上没有差异，只不过编辑器创建的方式，会帮我们将所有的依赖都配置好了，不用我们再手动去配置。
+### 创建FlutterModule
+有使用AS进行创建或者是命令行创建两种步骤，基本上没有差异，只不过编辑器创建的方式，会帮我们将所有的依赖都配置好了，不用我们再手动去配置。我们这里以AS创建的方式来介绍整个流程。
 
-**File-->New-->New Module选择FlutterModule**,注意，这里的FlutterModule的存放位置，可以是在你工程的某个文件夹内，或者是跟你的工程同级。这个看你自己的需求进行设置即可。
-![相关步骤](https://raw.githubusercontent.com/CCGCHEN/Image/master/20200514081159.png)
+#### 新建Module
+ > File-->New Module，选择FlutterModule，Module的存放位置可以根据你自己的需求进行存放。这里在app 同一层级，创建了一个叫android_module的来存放。
+ > ![在这里插入图片描述](https://img-blog.csdnimg.cn/202003281144318.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NoZW5jYW5ndWk=,size_16,color_FFFFFF,t_70)
+
+#### 依赖引入
+ 
+ 1. **修改setting.gradle 文件，进行依赖引入** 
+ 
+ ```
+setBinding(new Binding([gradle: this]))
+evaluate(new File(
+        settingsDir,
+        '/android_module/flutter_module/.android/include_flutter.groovy'
+))
+rootProject.name='FlutterMix'
+include ':flutter_module'
+project(':flutter_module').projectDir = new File('/android_module/flutter_module') 
+ ```
+ > 其中，setBinding与evaluate表示允许Flutter模块包括它自己在内的任何Flutter插件，在settings.gradle中以类似 :flutter、package_info的方式存在。sync 之后，会在如下路径，会有一个Flutter 文件夹生成。
+ > ![在这里插入图片描述](https://img-blog.csdnimg.cn/20200328144146830.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NoZW5jYW5ndWk=,size_16,color_FFFFFF,t_70)
+ 
+2. **修改build.gradle进行依赖**
+ > 在dependencies下面增加如下配置：` implementation project(path: ':flutter')`这里介绍一下，之所以要叫flutter，是因为跟上面第二步生成的Flutter 文件夹保持一致。另外，在android 标签增加使用java8来进行编译`compileOptions {
+    sourceCompatibility JavaVersion.VERSION_1_8
+    targetCompatibility JavaVersion.VERSION_1_8
+}`
+ 
+#### 进行flutter 调用
+
+```
+public class MainActivity extends AppCompatActivity {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        FlutterView flutterView = Flutter.createView(this, getLifecycle(), "initialRoute");
+        setContentView(flutterView);
+    }
+}
+```
+> ![在这里插入图片描述](https://img-blog.csdnimg.cn/20200328144937280.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NoZW5jYW5ndWk=,size_16,color_FFFFFF,t_70)
+
+#### 进行Flutter 代码开发调试
+ > 使用AS打开module 工程。退出引用程序，然后点击Flutter attach，打开你的应用程序，等待连接上即可。就能够像正常开发一样调试flutter代码了。![在这里插入图片描述](https://img-blog.csdnimg.cn/20200328151518245.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NoZW5jYW5ndWk=,size_16,color_FFFFFF,t_70)
+
+#### 遇到的问题
+ 如果你也是通过AS新创建的Demo工作来实践，可以会遇到相关依赖包找不到的问题，这个是因为你之前已经选择过工程支持androidx，新创建的默认都使用androidx的方式来进行相关的support支持。但是创建的Flutter 工程，还是使用的是普通的导入，删除其相关的导入，换成androidx的即可。
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20200328153351968.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NoZW5jYW5ndWk=,size_16,color_FFFFFF,t_70)
+
+## AAR集成的方式
 
 
+# 参考文章：
 
-官方文档[https://flutter.dev/docs/development/add-to-app/](https://flutter.dev/docs/development/add-to-app/)
+[官方文档](https://flutter.dev/docs/development/add-to-app/)
 
-
-
-### Attach
-- Android ：一般是先 Flutter Attach 之后再启动App
-- iOS： 可以先运行app 然后直接 Flutter Attach；
-
-为啥有这个差别呢？
+[AndroidX](https://developer.android.com/jetpack/androidx/releases/lifecycle)
