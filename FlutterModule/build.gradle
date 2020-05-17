@@ -4,7 +4,14 @@ buildscript {
     repositories {
         google()
         jcenter()
-        
+
+        maven {
+            url '/Users/chencangui/AndroidStudioProjects/Github/Flutter_Record/android_module/flutter_module/build/host/outputs/repo'
+        }
+        maven {
+            url 'http://download.flutter.io'
+        }
+
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.5.3'
@@ -18,7 +25,14 @@ allprojects {
     repositories {
         google()
         jcenter()
-        
+
+        maven {
+            url '/Users/chencangui/AndroidStudioProjects/Github/Flutter_Record/android_module/flutter_module/build/host/outputs/repo'
+        }
+        maven {
+            url 'http://download.flutter.io'
+        }
+
     }
 }
 
