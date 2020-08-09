@@ -1,9 +1,10 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:analyzer/dart/analysis/features.dart';
 import 'package:analyzer/dart/analysis/utilities.dart';
-import 'package:analyzer/dart/ast/visitor.dart';
-import 'package:analyzer/dart/ast/ast.dart';
 import 'package:args/args.dart';
+import 'package:dynamic_flutter/DetailAstVisitor.dart';
+import 'package:dynamic_flutter/MyAstVisitor.dart';
 
 void main(List<String> arguments) {
   exitCode = 0; // presume success
@@ -15,15 +16,6 @@ void main(List<String> arguments) {
     stdout.writeln('No file found');
   } else {
     generate(paths[0]);
-  }
-}
-
-class DemoAstVisitor extends GeneralizingAstVisitor<Map> {
-  @override
-  Map visitNode(AstNode node) {
-    //输出遍历AST Node 节点内容
-    stdout.writeln("${node.runtimeType}<---->${node.toSource()}");
-    return super.visitNode(node);
   }
 }
 
@@ -39,7 +31,8 @@ Future generate(String path) async {
         parseFile(path: path, featureSet: FeatureSet.fromEnableFlags([]));
         var compilationUnit = parseResult.unit;
         //遍历AST
-        compilationUnit.accept(DemoAstVisitor());
+        var astData = compilationUnit.accept(DetailAstVisitor());
+        stdout.writeln(jsonEncode(astData));
       } catch (e) {
         stdout.writeln('Parse file error: ${e.toString()}');
       }
